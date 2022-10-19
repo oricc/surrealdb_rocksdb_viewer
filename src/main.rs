@@ -1,5 +1,5 @@
 use prettytable::{Table, Row, Cell};
-use rocksdb::{DB, IteratorMode};
+use rocksdb::{DB, IteratorMode, Options};
 use regex::Regex;
 use std::env;
 
@@ -13,7 +13,7 @@ fn print_table() {
 
     let path = env::var("SURREALDB_PATH").expect("Set environment variable");
     {
-        let db = DB::open_default(path, ).unwrap();
+        let db = DB::open_for_read_only(&Options::default(),path, false).unwrap();
         let iter = db.iterator(IteratorMode::Start); // Always iterates forward
 
         let mut table = Table::new();
